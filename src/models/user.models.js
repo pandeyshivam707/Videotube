@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 const userSchema = new Schema(
   {
     username: {
-      type: String,isModified,
+      type: String,
       required: true,
       unique: true,
       lowercase: true,
@@ -43,7 +43,7 @@ const userSchema = new Schema(
       required: [true, "Password is required"],  // ← custom error message
     },
     refreshToken: {
-      type: String,isModified
+      type: String,
     },
   },
   { timestamps: true }
