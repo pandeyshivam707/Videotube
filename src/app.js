@@ -1,28 +1,22 @@
 import express from "express";
-import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
+import userRouter from "./routes/user.routes.js";
 import cookieParser from "cookie-parser";
-
-// import Routes
-import healthCheckRouter from "./routes/healthcheck.routes.js"
-import userRoute from "./routes/user.routes.js"
+import {errorHandler} from "./middlewares/error.middlewares.js";
+import CORS from "cors";
 
 const app = express();
 
-app.use(
-    cors({
-        origin: process.env.CORS_ORIGIN,
-        credentials: true,
-    })
-)
-
-
-
-app.use(express.json({ limit: "16kb" }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({limit : "16kb"}));
+app.use(express.urlencoded({extended : true, limit : "16kb"}));
 app.use(express.static("public"));
 app.use(cookieParser());
+app.use(CORS());
 
+app.use("/api/v1/users", userRouter);
 
-app.use("/api/v1/healthcheck", healthCheckRouter);
-app.use("/api/v1/users", userRoute);
-export { app }; 
+app.use(errorHandler);
+
+export {app};
+
